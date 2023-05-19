@@ -1,0 +1,6 @@
+Requirements in order of implementation:
+
+    - Physical layer link between two devices
+        - Physical layer device class
+        - Link class
+        - Time step 
