@@ -9,8 +9,12 @@
                 "-g",
                 "${workspaceFolder}/main.cpp",
                 "${workspaceFolder}/libs/*.cpp",
+                "${workspaceFolder}/gui/*.cpp",
                 "-o",
-                "main"
+                "netsim",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system"
             ],
             "problemMatcher": [
                 "$gcc"

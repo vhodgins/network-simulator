@@ -60,3 +60,17 @@ int8_t Transceiver::read_from_port(uint8_t portnum) {
         throw std::out_of_range("Invalid port number");
     }
 }
+
+int8_t Transceiver::port_read(uint8_t portnum){
+    if (portnum < ports.size()) {
+        if (ports[portnum].link != nullptr) {
+            return ports[portnum].link->read_from_end(ports[portnum].type);
+        }
+        else {
+            throw std::runtime_error("Port is not connected or not a receive port");
+        }
+    }
+    else {
+        throw std::out_of_range("Invalid port number");
+    }
+}

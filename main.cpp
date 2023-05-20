@@ -1,36 +1,52 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "libs/Transceiver.h"
 #include "libs/PHYLink.h"
+#include "gui/netsim_draw.h"
+
 
 int main() {
     // Create two transceivers
     Transceiver t1(1, 0, 0);
-    Transceiver t2(1, 5, 0);
+    Transceiver t2(2, 100, 0);
+    Transceiver t3(2, 100, 200);
 
     // Create a link between transceivers
     PHYLink link(true, 1, 0, t1, t2);
+    PHYLink link1(true, 1, 0, t2, t3);
+    
 
     // Connect the link to transceivers
     t1.connect_link(&link, PortType::TX);
     t2.connect_link(&link, PortType::RX);
+    t2.connect_link(&link1, PortType::TX);
+    t3.connect_link(&link1, PortType::RX);
+    
 
-    int8_t t1val, t2val;
+    // Render Window
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML GUI");
+    window.setFramerateLimit(60);
+    window.setPosition(sf::Vector2i(100, 100));
 
 
-    for (int i = 0; i < 10; i++) {
-        // t1 pushes a value to its port
-        t1.push_to_port(0, i);
-        // t2 pushes a different value to its port
-        t2.push_to_port(0, i+10);
+    while (window.isOpen()){
+        sf::Event event;
+        while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
 
-        t2val = t2.read_from_port(0);
-        std::cout << "Received value at T2: " << static_cast<int>(t2val) << "\n";
-   
-        // Check if t1's port has data to read
-        t1val = t1.read_from_port(0);
-        std::cout << "Received value at T1: " << static_cast<int>(t1val) << "\n";
-        
+        window.clear(sf::Color::White);
+        drawTransceiver(window, t1);
+        drawTransceiver(window, t2);
+        drawTransceiver(window, t3);
+        drawPHYLink(window, link);
+        drawPHYLink(window, link1);
+        window.display();
     }
+
+
 
     return 0;
 }
