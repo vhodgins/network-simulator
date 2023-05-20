@@ -61,7 +61,7 @@ int8_t Transceiver::read_from_port(uint8_t portnum) {
     }
 }
 
-int8_t Transceiver::port_read(uint8_t portnum){
+int8_t Transceiver::port_read(uint8_t portnum) const{
     if (portnum < ports.size()) {
         if (ports[portnum].link != nullptr) {
             return ports[portnum].link->read_from_end(ports[portnum].type);

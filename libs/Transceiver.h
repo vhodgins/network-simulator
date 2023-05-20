@@ -32,7 +32,7 @@ class Transceiver {
         void push_to_port(uint8_t portnum, int8_t dataval);
         int8_t read_from_port(uint8_t portnum);
 
-        int8_t port_read(uint8_t portnum);
+        int8_t port_read(uint8_t portnum) const;
 };
 
 
