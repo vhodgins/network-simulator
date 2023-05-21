@@ -18,6 +18,9 @@ int main() {
         std::cout << "Could not load font" << std::endl;
     }
 
+    // Random Seed
+    srand((unsigned) time(NULL));
+
     // Create transceivers
     std::vector<Transceiver> transceivers;
     transceivers.push_back(Transceiver(1, 0, 0));
