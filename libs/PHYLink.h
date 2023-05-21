@@ -22,13 +22,17 @@ class PHYLink {             // Link Class
         queue<int8_t> rx;
         queue<int8_t> tx;
 
+
     public:
+        float animatedPos = 0.0;
+
         PHYLink(bool d, int v, int i, Transceiver& t1, Transceiver& t2);      // Constructor
         void push_to_end(PortType end, int8_t voltage);  // Push values through link
         int8_t pop_from_end(PortType end);
         float coords[4] =  {0,0,0,0};
         int8_t read_from_end(PortType end);
-
+        int8_t read_from_front(PortType end);
+        void updateAnimation(float elapsedTime);
 };
 
 #endif // Include Guard

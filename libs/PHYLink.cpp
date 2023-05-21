@@ -29,15 +29,15 @@ void PHYLink::push_to_end(PortType end, int8_t voltage) {
 int8_t PHYLink::pop_from_end(PortType end) {
     int8_t value;
     if (end == PortType::RX && !rx.empty()) {
-        value = rx.front();
-        rx.pop();
-    }
-    else if (end == PortType::TX && !tx.empty()) {
         value = tx.front();
         tx.pop();
     }
+    else if (end == PortType::TX && !tx.empty()) {
+        value = rx.front();
+        rx.pop();
+    }
     else {
-        throw std::invalid_argument("Invalid PortType or Port is empty");
+        throw std::invalid_argument("Invalid PortType or Port is empty (PFE)");
     }
     return value;
 }
@@ -46,13 +46,39 @@ int8_t PHYLink::pop_from_end(PortType end) {
 int8_t PHYLink::read_from_end(PortType end){
     int8_t value;
     if (end == PortType::RX && !rx.empty()) {
-        value = rx.front();
-    }
-    else if (end == PortType::TX && !tx.empty()) {
         value = tx.front();
     }
+    else if (end == PortType::TX && !tx.empty()) {
+        value = rx.front();
+    }
     else {
-        throw std::invalid_argument("Invalid PortType or Port is empty");
+        throw std::invalid_argument("Invalid PortType or Port is empty (RFE)");
     }
     return value;
+}
+
+int8_t PHYLink::read_from_front(PortType end){
+    int8_t value;
+    if (end == PortType::RX && !rx.empty()) {
+        value = rx.back();
+    }
+    else if (end == PortType::TX && !tx.empty()) {
+        value = tx.back();
+    }
+    else {
+        throw std::invalid_argument("Invalid PortType or Port is empty (RFE)");
+    }
+    return value;
+}
+
+
+void PHYLink::updateAnimation(float elapsedTime) {
+    // Calculate how much to move the circle along the line based on the elapsed time and the link speed
+    float moveAmount = elapsedTime * vProp*100 / distance;
+    // Update the circle's position
+    animatedPos += moveAmount;
+    // If the circle has reached the end of the link, wrap it back to the beginning
+    if (animatedPos > 1.0f) {
+        animatedPos = 0.0f;
+    }
 }

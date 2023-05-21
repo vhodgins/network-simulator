@@ -33,6 +33,7 @@ class Transceiver {
         int8_t read_from_port(uint8_t portnum);
 
         int8_t port_read(uint8_t portnum) const;
+        int8_t last_sent_bit(uint8_t portnum);
 };
 
 
