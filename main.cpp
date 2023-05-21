@@ -28,10 +28,10 @@ int main() {
 
     // Create links between transceivers
     std::vector<PHYLink> links;
-    links.push_back(PHYLink(true, 1, 0, transceivers[0], transceivers[1]));
-    links.push_back(PHYLink(true, 1, 0, transceivers[1], transceivers[2]));
-    links.push_back(PHYLink(true, 1, 0, transceivers[1], transceivers[3]));
-    links.push_back(PHYLink(true, 1, 0, transceivers[3], transceivers[4]));
+    links.push_back(PHYLink(true, 20, 0, transceivers[0], transceivers[1]));
+    links.push_back(PHYLink(true, 10, 0, transceivers[1], transceivers[2]));
+    links.push_back(PHYLink(true, 5, 0, transceivers[1], transceivers[3]));
+    links.push_back(PHYLink(true, 50, 0, transceivers[3], transceivers[4]));
     
 
     // Connect the links to transceivers

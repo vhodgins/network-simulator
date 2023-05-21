@@ -8,7 +8,7 @@ PHYLink::PHYLink(bool d, int v, int i, Transceiver& t1, Transceiver& t2) : duple
         double dy = t1.ycoord - t2.ycoord;
         distance = std::sqrt(dx*dx + dy*dy);
 
-        for (int j = 0; j < std::round(distance); ++j) {
+        for (int j = 0; j < std::round(distance*(10.0/vProp)); ++j) {
             rx.push(0);
             tx.push(0);
         }
@@ -22,7 +22,7 @@ void PHYLink::push_to_end(PortType end, int8_t voltage) {
         tx.push(voltage);
     }
     else {
-        throw std::invalid_argument("Invalid PortType");
+        throw std::invalid_argument("Invalid PortType (PTE)");
     }
 }
 
@@ -66,7 +66,7 @@ int8_t PHYLink::read_from_front(PortType end){
         value = tx.back();
     }
     else {
-        throw std::invalid_argument("Invalid PortType or Port is empty (RFE)");
+        throw std::invalid_argument("Invalid PortType or Port is empty (RFF)");
     }
     return value;
 }
@@ -74,7 +74,7 @@ int8_t PHYLink::read_from_front(PortType end){
 
 void PHYLink::updateAnimation(float elapsedTime) {
     // Calculate how much to move the circle along the line based on the elapsed time and the link speed
-    float moveAmount = elapsedTime * vProp*100 / distance;
+    float moveAmount = elapsedTime * 10* vProp / (distance);
     // Update the circle's position
     animatedPos += moveAmount;
     // If the circle has reached the end of the link, wrap it back to the beginning

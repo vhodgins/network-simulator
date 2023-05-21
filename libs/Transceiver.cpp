@@ -20,7 +20,7 @@ void Transceiver::connect_link(PHYLink* link, PortType type) {      // Connects 
             return;
         }
     }
-    throw std::runtime_error("All ports are occupied");
+    throw std::runtime_error("All ports are occupied (CL)");
 }
 
 void Transceiver::disconnect_port(uint8_t portnum) {                // Removes references to link from a port
@@ -29,7 +29,7 @@ void Transceiver::disconnect_port(uint8_t portnum) {                // Removes r
         ports[portnum].type = PortType::EMPTY;
     }
     else {
-        throw std::out_of_range("Invalid port number");
+        throw std::out_of_range("Invalid port number (DP)");
     }
 }
 
@@ -39,11 +39,11 @@ void Transceiver::push_to_port(uint8_t portnum, int8_t dataval) {               
             ports[portnum].link->push_to_end(ports[portnum].type, dataval);
         }
         else {
-            throw std::runtime_error("Port is not connected or not a transmit port");
+            throw std::runtime_error("Port is not connected or not a transmit port (PTP)");
         }
     }
     else {
-        throw std::out_of_range("Invalid port number");
+        throw std::out_of_range("Invalid port number (PTP)");
     }
 }
 
@@ -53,11 +53,11 @@ int8_t Transceiver::read_from_port(uint8_t portnum) {                   // Reads
             return ports[portnum].link->pop_from_end(ports[portnum].type);
         }
         else {
-            throw std::runtime_error("Port is not connected or not a receive port");
+            throw std::runtime_error("Port is not connected or not a receive port (RFP)");
         }
     }
     else {
-        throw std::out_of_range("Invalid port number");
+        throw std::out_of_range("Invalid port number (RFP)");
     }
 }
 
@@ -71,7 +71,7 @@ int8_t Transceiver::port_read(uint8_t portnum) const{                       // R
         }
     }
     else {
-        throw std::out_of_range("Invalid port number");
+        throw std::out_of_range("Invalid port number (PR)");
     }
 }
 
@@ -82,10 +82,10 @@ int8_t Transceiver::last_sent_bit(uint8_t portnum){                       // Rea
             return ports[portnum].link->read_from_front(ports[portnum].type);
         }
         else {
-            throw std::runtime_error("Port is not connected or not a receive port");
+            throw std::runtime_error("Port is not connected or not a receive port (LSB)");
         }
     }
     else {
-        throw std::out_of_range("Invalid port number");
+        throw std::out_of_range("Invalid port number (LSB)");
     }
 }
